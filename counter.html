@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <style>
+        .border {
+            display: inline-block;
+        }
+
+        .rounded {
+            font-size: 3rem;
+        }
+
+        b {
+            text-decoration: underline;
+            font-size: 2rem;
+        }
+    </style>
+    <title>Counter</title>
+</head>
+
+<body>
+    <div class="d-flex justify-content-center">
+        <div>
+            <b class="text-center">Counter</b>
+            <b class="text-center">Timer</b>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-3">
+                <input type="number" class="form-control" placeholder="hours">
+            </div>
+            <div class="col-3">
+                <input type="number" class="form-control" placeholder="minutes">
+            </div>
+            <div class="col-3">
+                <input type="number" class="form-control" placeholder="seconds">
+            </div>
+            <div class="col">
+                <button class="btn btn-success" type="submit">Start</button>
+            </div>
+            <div class="col"><button class="btn btn-danger" id="stop">Stop</button></div>
+            <div class="col"><button class="btn btn-warning" id="reset">Reset</button></div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-5">
+            <div class="border rounded p-2">
+                <span>00</span>:
+                <span>00</span>:
+                <span>00</span>
+            </div>
+        </div>
+        </form>
+        <script>
+
+            const [start, stop, reset] = document.querySelectorAll('button');
+            const [hrs, mins, sec] = document.querySelectorAll('input');
+            const [one, two, three] = document.querySelectorAll('span');
+
+            let interval;
+
+            let hours;
+            let minutes;
+            let seconds;
+            let b = true;
+
+            start.addEventListener('click', function () {
+                if (b) {
+                    startFnc();
+                    b = false;
+                } else return;
+            })
+
+            function startFnc() {
+                hours = Number(hrs.value);
+                minutes = Number(mins.value);
+                seconds = Number(sec.value);
+
+
+                interval = setInterval(() => {
+                    console.log(hours, minutes, seconds)
+                    if (minutes == 0 && hours == 0 && seconds == 0) {
+                        clear();
+                        hrs.value = "";
+                        mins.value = "";
+                        sec.value = "";
+                    }
+                    if (minutes == -1 && hours != 0) {
+                        minutes = 59;
+                        hours = --hours;
+                    }
+                    if (seconds == -1) {
+                        seconds = 59;
+                        minutes = --minutes;
+                        if (minutes == -1) {
+                            minutes = 59;
+                            hours = --hours;
+                        }
+                    }
+                    one.innerHTML = String(hours).padStart(2, '0')
+                    two.innerHTML = String(minutes).padStart(2, '0')
+                    three.innerHTML = String(seconds--).padStart(2, '0')
+                }, 1000);
+            }
+            stop.addEventListener('click', function () {
+                hrs.value = hours + "";
+                mins.value = minutes + "";
+                sec.value = seconds + "";
+                b = true;
+                clear();
+            })
+
+            reset.addEventListener('click', function () {
+                clearInterval(interval);
+                hrs.value = "";
+                mins.value = "";
+                sec.value = "";
+                hours = 0;
+                minutes = 0;
+                seconds = 0;
+                one.innerHTML = "00";
+                two.innerHTML = "00";
+                three.innerHTML = "00";
+                b = true;
+            })
+
+            function clear() {
+                clearInterval(interval);
+            }
+        </script>
+</body>
+
+</html>
