@@ -83,7 +83,9 @@
                 hours = Number(hrs.value);
                 minutes = Number(mins.value);
                 seconds = Number(sec.value);
-
+                hrs.value = "";
+                mins.value = "";
+                sec.value = "";
 
                 interval = setInterval(() => {
                     console.log(hours, minutes, seconds)
@@ -92,6 +94,7 @@
                         hrs.value = "";
                         mins.value = "";
                         sec.value = "";
+                        b = true;
                     }
                     if (minutes == -1 && hours != 0) {
                         minutes = 59;
